@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026 名古屋×大阪 南方四賤客賞楓任天堂大冒險</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Huninn&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #FFFCF6;
+      --border-color: #3E3A39;
+      --coral-pink: #F2A497;
+      --yamabuki-yellow: #F6D27A;
+      --water-blue: #A8D3E6;
+      --bamboo-green: #B9DAA5;
+      --card-bg: #FFFFFF;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Huninn', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+      color: var(--border-color);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      padding-bottom: 90px;
+    }
+
+    /* 頂端固定選單 */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg-color);
+      border-bottom: 3px solid var(--border-color);
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+    }
+
+    .nav-btn {
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 14px;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 2px 2px 0 var(--border-color);
+      transition: all 0.2s;
+    }
+
+    .nav-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 0 0 0;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    /* 首頁插圖與標題 */
+    .hero-card {
+      background: var(--yamabuki-yellow);
+      border: 3px solid var(--border-color);
+      border-radius: 24px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 4px 4px 0 var(--border-color);
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .hero-title {
+      font-size: 22px;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .hero-subtitle {
+      font-size: 13px;
+      margin-bottom: 12px;
+      display: inline-block;
+      background: #FFF;
+      padding: 4px 10px;
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+    }
+
+    /* SVG 輕輕搖擺動畫 */
+    @keyframes float-gentle {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-6px) rotate(2deg); }
+    }
+
+    .animated-svg {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 10px 0;
+    }
+
+    .animated-svg svg {
+      animation: float-gentle 3s ease-in-out infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .animated-svg svg {
+        animation: none;
+      }
+    }
+
+    /* 倒數計時 */
+    .countdown-box {
+      background: #FFF;
+      border: 2px solid var(--border-color);
+      border-radius: 16px;
+      padding: 8px 12px;
+      font-size: 14px;
+      font-weight: bold;
+      display: inline-block;
+      box-shadow: 2px 2px 0 var(--border-color);
+    }
+
+    /* 區塊標題 */
+    .section-title {
+      font-size: 18px;
+      margin: 24px 0 12px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title::before {
+      content: '';
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      background: var(--coral-pink);
+      border: 2px solid var(--border-color);
+      border-radius: 50%;
+    }
+
+    /* 卡片通用樣式 */
+    .ui-card {
+      background: var(--card-bg);
+      border: 3px solid var(--border-color);
+      border-radius: 20px;
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: 3px 3px 0 var(--border-color);
+    }
+
+    /* 日期切換 Tab */
+    .date-tabs {
+      display: flex;
+      overflow-x: auto;
+      gap: 8px;
+      padding-bottom: 8px;
+      scrollbar-width: none;
+    }
+    .date-tabs::-webkit-scrollbar { display: none; }
+
+    .tab-btn {
+      flex: 0 0 auto;
+      background: #FFF;
+      border: 2px solid var(--border-color);
+      border-radius: 16px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 2px 2px 0 var(--border-color);
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active {
+      background: var(--coral-pink);
+      color: #FFF;
+      transform: translateY(-2px);
+      box-shadow: 2px 4px 0 var(--border-color);
+    }
+
+    /* 時間軸 */
+    .timeline {
+      position: relative;
+      margin-top: 16px;
+      padding-left: 20px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 8px;
+      bottom: 8px;
+      width: 3px;
+      background: var(--border-color);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 16px;
+      background: #FFF;
+      border: 2px solid var(--border-color);
+      border-radius: 16px;
+      padding: 12px;
+      box-shadow: 2px 2px 0 var(--border-color);
+      animation: tab-bounce 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -20px;
+      top: 14px;
+      width: 11px;
+      height: 11px;
+      background: var(--yamabuki-yellow);
+      border: 2px solid var(--border-color);
+      border-radius: 50%;
+    }
+
+    @keyframes tab-bounce {
+      0% { opacity: 0; transform: scale(0.95); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .timeline-time {
+      font-size: 12px;
+      font-weight: bold;
+      color: #888;
+      margin-bottom: 4px;
+    }
+
+    .timeline-title {
+      font-size: 15px;
+      font-weight: bold;
+      margin-bottom: 6px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* 彩色標籤 */
+    .tag {
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1.5px solid var(--border-color);
+      font-weight: bold;
+    }
+    .tag-must { background: var(--coral-pink); color: #FFF; }
+    .tag-trans { background: var(--water-blue); }
+    .tag-group { background: var(--bamboo-green); }
+    .tag-food { background: var(--yamabuki-yellow); }
+
+    .timeline-desc {
+      font-size: 13px;
+      line-height: 1.4;
+      color: #555;
+    }
+
+    /* 待辦清單勾選效果 */
+    .todo-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px dashed #DDD;
+      font-size: 14px;
+    }
+
+    .todo-checkbox {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border-color);
+      border-radius: 6px;
+      background: #FFF;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .todo-checkbox:checked {
+      background: var(--bamboo-green);
+    }
+    .todo-checkbox:checked::after {
+      content: '✔';
+      font-size: 13px;
+      color: var(--border-color);
+    }
+
+    .todo-checkbox:checked + span {
+      text-decoration: line-through;
+      color: #AAA;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 頂端選單 -->
+  <nav class="navbar">
+    <a href="#itinerary" class="nav-btn">📅 行程</a>
+    <a href="#flights" class="nav-btn">✈️ 航班</a>
+    <a href="#hotels" class="nav-btn">🏨 住宿</a>
+    <a href="#todo" class="nav-btn">✅ 待辦</a>
+  </nav>
+
+  <div class="container">
+
+    <!-- 首頁卡片 -->
+    <div class="hero-card">
+      <div class="hero-subtitle">🍁 秋楓 × 🍄 樂園</div>
+      <h1 class="hero-title">2026 名古屋 × 大阪<br>南方四賤客賞楓任天堂大冒險</h1>
+      
+      <!-- 原創可愛繪本風 SVG 插圖 (楓葉、蘑菇、新幹線) -->
+      <div class="animated-svg">
+        <!-- 楓葉 SVG -->
+        <svg width="42" height="42" viewBox="0 0 100 100">
+          <path d="M50 10 L58 35 L80 25 L70 50 L95 65 L65 72 L72 92 L50 78 L28 92 L35 72 L5 65 L30 50 L20 25 L42 35 Z" fill="#F2A497" stroke="#3E3A39" stroke-width="6" stroke-linejoin="round"/>
+        </svg>
+        <!-- 蘑菇怪 SVG -->
+        <svg width="42" height="42" viewBox="0 0 100 100">
+          <path d="M15 55 C15 25 85 25 85 55 C85 62 15 62 15 55 Z" fill="#F2A497" stroke="#3E3A39" stroke-width="6"/>
+          <circle cx="35" cy="40" r="8" fill="#FFF"/>
+          <circle cx="65" cy="40" r="8" fill="#FFF"/>
+          <path d="M30 58 L30 80 C30 88 70 88 70 80 L70 58 Z" fill="#FFF" stroke="#3E3A39" stroke-width="6"/>
+          <ellipse cx="42" cy="68" rx="2" ry="5" fill="#3E3A39"/>
+          <ellipse cx="58" cy="68" rx="2" ry="5" fill="#3E3A39"/>
+        </svg>
+        <!-- 新幹線小火車 SVG -->
+        <svg width="48" height="42" viewBox="0 0 120 100">
+          <path d="M10 70 L90 70 C105 70 115 58 115 58 L90 40 L10 40 Z" fill="#A8D3E6" stroke="#3E3A39" stroke-width="6"/>
+          <rect x="25" y="48" width="16" height="12" rx="3" fill="#FFF" stroke="#3E3A39" stroke-width="4"/>
+          <rect x="50" y="48" width="16" height="12" rx="3" fill="#FFF" stroke="#3E3A39" stroke-width="4"/>
+          <line x1="10" y1="60" x2="110" y2="60" stroke="#3E3A39" stroke-width="4"/>
+        </svg>
+      </div>
+
+      <div class="countdown-box" id="countdown">載入倒數中...</div>
+    </div>
+
+    <!-- 每日行程切換 -->
+    <div id="itinerary">
+      <div class="section-title">每日詳細行程</div>
+      
+      <div class="date-tabs">
+        <button class="tab-btn active" onclick="switchDay(1)">D1 12/5(六)</button>
+        <button class="tab-btn" onclick="switchDay(2)">D2 12/6(日)</button>
+        <button class="tab-btn" onclick="switchDay(3)">D3 12/7(一)</button>
+        <button class="tab-btn" onclick="switchDay(4)">D4 12/8(二)</button>
+        <button class="tab-btn" onclick="switchDay(5)">D5 12/9(三)</button>
+        <button class="tab-btn" onclick="switchDay(6)">D6 12/10(四)</button>
+        <button class="tab-btn" onclick="switchDay(7)">D7 12/11(五)</button>
+      </div>
+
+      <div class="timeline" id="timeline-container">
+        <!-- JS 動態插入內容 -->
+      </div>
+    </div>
+
+    <!-- 航班卡片 -->
+    <div id="flights">
+      <div class="section-title">航班動線</div>
+      <div class="ui-card">
+        <div class="timeline-title">🔴 婷博士與述秘書組 </div>
+        <div class="timeline-desc">
+          🛫 去：12/5 07:40 桃機 ➔ 11:10 名古屋 (華航 CI154)<br>
+          🛬 回：12/11 14:30 關西 ➔ 16:25 桃機 (華航 CI157)
+        </div>
+      </div>
+      <div class="ui-card">
+        <div class="timeline-title">🔵 顯博士組 </div>
+        <div class="timeline-desc">
+          🛫 去：12/5 07:05 台中 ➔ 10:40 名古屋 (星宇)<br>
+          🛬 回：12/11 14:00 關西 ➔ 15:50 返台 (星宇)
+        </div>
+      </div>
+      <div class="ui-card">
+        <div class="timeline-title">🟡 須博士組 </div>
+        <div class="timeline-desc">
+          🛫 去：12/5 07:40 桃機 ➔ 11:10 名古屋 (華航 CI154)<br>
+          🛬 回：12/11 11:45 關西 ➔ 14:00 高雄 (華航)
+        </div>
+      </div>
+    </div>
+
+    <!-- 住宿資訊卡片 -->
+    <div id="hotels">
+      <div class="section-title">作戰飯店</div>
+      <div class="ui-card" style="background:#FFF9E6;">
+        <div class="timeline-title">🏨 D1-D4 名古屋金山舒適飯店</div>
+        <div class="timeline-desc">📍 愛知縣名古屋市熱田區波寄町 21-19<br>💡 機場名鐵特急直達、往返巨蛋地鐵直達。</div>
+      </div>
+      <div class="ui-card" style="background:#EBF7FC;">
+        <div class="timeline-title">🏨 D4-D5 環球影城港灣酒店</div>
+        <div class="timeline-desc">📍 大阪府大阪市此花區櫻島 1-1-111<br>💡 官方合作飯店，步行出門直接排隊搶攻瑪利歐！</div>
+      </div>
+      <div class="ui-card" style="background:#F2F9ED;">
+        <div class="timeline-title">🏨 D5-D7 大阪難波格利茲飯店</div>
+        <div class="timeline-desc">📍 大阪府大阪市浪速區難波中 1-7-7<br>💡 位於難波核心，退房步行搭 Rapi:t 直達關西機場。</div>
+      </div>
+    </div>
+
+    <!-- 打勾待辦清單 -->
+    <div id="todo">
+      <div class="section-title">出發備忘錄</div>
+      <div class="ui-card">
+        <label class="todo-item">
+          <input type="checkbox" class="todo-checkbox">
+          <span>完成 Visit Japan Web 申報登錄</span>
+        </label>
+        <label class="todo-item">
+          <input type="checkbox" class="todo-checkbox">
+          <span>預訂 12/8 新幹線特大行李位（名➔新大阪）</span>
+        </label>
+        <label class="todo-item">
+          <input type="checkbox" class="todo-checkbox">
+          <span>USJ App 綁定門票（入園即搶瑪利歐券）</span>
+        </label>
+        <label class="todo-item">
+          <input type="checkbox" class="todo-checkbox">
+          <span>準備好 JCB 信用卡（高島屋/百貨回饋）</span>
+        </label>
+        <label class="todo-item">
+          <input type="checkbox" class="todo-checkbox">
+          <span>儲存「不吃牛肉」日文小卡至手機相本</span>
+        </label>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // 倒數計時計算
+    function updateCountdown() {
+      const target = new Date("2026-12-05T07:05:00").getTime();
+      const now = new Date().getTime();
+      const diff = target - now;
+
+      if (diff <= 0) {
+        document.getElementById("countdown").innerText = "🎉 旅程已經出發狂歡中！";
+        return;
+      }
+
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      document.getElementById("countdown").innerText = `距離冒險出發還有 ${d} 天 ${h} 小時！`;
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // 7天行程資料庫 (無牛、無炸串版)
+    const itineraryData = {
+      1: [
+        { time: "12:15", title: "中部機場全員會合", tags: ["🟢 全員", "🚃 名鐵特急"], desc: "抵達金山舒適飯店放行李。" },
+        { time: "13:30", title: "午餐：惠亭豬排", tags: ["🟢 全員", "🍽️ 無牛美食"], desc: "JR 高島屋 13F，頂級鹿兒島黑豚豬排。" },
+        { time: "15:30", title: "首戰分流：BIGBANG 演唱會", tags: ["🔴 A組", "★必去", "🚇 名城線"], desc: "直達名古屋巨蛋看演唱會！晚餐巨蛋旁雞三和親子丼。" },
+        { time: "15:30", title: "首戰分流：榮商圈登塔", tags: ["🔵🟡 B/C組", "★必去"], desc: "登 MIRAI TOWER、拍 Oasis 21 夜景。晚餐矢場味噌豬排。" },
+        { time: "21:30", title: "深夜聚會：爐端燒 MIMIZUKU", tags: ["🟢 全員", "🍽️ 宵夜"], desc: "全員集合吃烤物宵夜慶祝首戰順利。" }
+      ],
+      2: [
+        { time: "08:00", title: "早餐：客美多咖啡", tags: ["🟢 全員", "☕ 早餐"], desc: "點咖啡送厚片吐司，正宗名古屋早餐。" },
+        { time: "09:00", title: "熱田神宮參拜 ＆ 大須商店街", tags: ["🟢 全員", "★必去"], desc: "走訪能量景點、挖寶古著與模型公仔。" },
+        { time: "13:00", title: "午餐：鰻櫃花岡 / 富士鰻魚", tags: ["🟢 全員", "🍱 無牛名物"], desc: "品嚐經典名古屋鰻魚飯三吃！" },
+        { time: "14:30", title: "次戰分流：BIGBANG 第二天", tags: ["🔴 A組", "★必去"], desc: "再戰名古屋巨蛋！晚餐吃德兵衛迴轉壽司。" },
+        { time: "14:30", title: "次戰分流：Toyota 產業紀念館", tags: ["🔵🟡 B/C組", "★必去"], desc: "見證豐田近代工業奇蹟。晚餐吃藤花拉麵。" },
+        { time: "21:30", title: "宵夜聚會：名駅平價居酒屋", tags: ["🟢 全員", "🍻 宵夜"], desc: "喝杯生啤分享今日戰果。" }
+      ],
+      3: [
+        { time: "08:30", title: "早餐：加藤珈琲店", tags: ["🟢 全員", "🍞 早餐"], desc: "品嚐知名小倉紅豆奶油吐司。" },
+        { time: "09:30", title: "名古屋城巡禮", tags: ["🟢 全員", "★必去"], desc: "參觀金鯱天守閣與本丸御殿。" },
+        { time: "12:30", title: "JR 高島屋 B1 伴手禮集中採買", tags: ["🟢 全員", "🛍️ JCB回饋"], desc: "砂糖樹、坂角蝦餅、小倉山莊、艾許奶油集中掃貨與退稅！" },
+        { time: "13:30", title: "午餐：吉田棊子麵", tags: ["🟢 全員", "🍜 無牛美食"], desc: "名物滑溜寬扁烏龍麵。" },
+        { time: "15:30", title: "名花之里 鏡池晚楓與璀璨點燈", tags: ["🟢 全員", "★必去", "🚌 巴士"], desc: "日本最大級冬季燈海與楓葉倒影。" },
+        { time: "20:00", title: "晚餐：世界之山將", tags: ["🟢 全員", "🍗 晚餐"], desc: "狂嗑招牌夢幻胡椒炸雞翅！" }
+      ],
+      4: [
+        { time: "09:00", title: "金山退房 ＆ Konparu 炸蝦三明治", tags: ["🟢 全員", "🥪 早餐"], desc: "外帶名物炸蝦排三明治上新幹線。" },
+        { time: "10:10", title: "搭乘東海道新幹線前往大阪", tags: ["🟢 全員", "🚄 新幹線"], desc: "名古屋 ➔ 新大阪，無縫轉乘至環球影城站。" },
+        { time: "12:00", title: "入住環球影城港灣酒店放行李", tags: ["🟢 全員", "🏨 寄放行李"], desc: "入住官方合作酒店，明天開園神級起跑點。" },
+        { time: "12:30", title: "大阪港灣巡禮或海遊館", tags: ["🟢 全員", "⛴️ 船長線"], desc: "逛 Universal CityWalk 或搭船前往天保山摩天輪。" },
+        { time: "18:00", title: "晚餐：大起水產迴轉壽司", tags: ["🟢 全員", "🍣 晚餐"], desc: "海鮮握壽司大滿足，提早休息備戰 USJ。" }
+      ],
+      5: [
+        { time: "07:30", title: "開園排隊 ＆ 便利商店快速早餐", tags: ["🟢 全員", "🍙 早餐"], desc: "提早至 USJ 門口卡位等待開園！" },
+        { time: "08:00", title: "大阪環球影城：全日狂歡！", tags: ["🟢 全員", "★必去", "🍄 任天堂"], desc: "入園直衝超級任天堂世界、挑戰瑪利歐賽車！" },
+        { time: "12:30", title: "午餐：奇諾比歐咖啡店", tags: ["🟢 全員", "★必去", "🍽️ 無牛美食"], desc: "入園立即抽整理券！享用無牛蘑菇披薩碗與照燒雞。" },
+        { time: "20:30", title: "拿行李移動至難波格利茲飯店", tags: ["🟢 全員", "🚃 移動"], desc: "港灣酒店領行李，搭車前往難波商圈入住。" },
+        { time: "21:30", title: "宵夜大慶功：心齋橋 熙 Yorokobu", tags: ["🟢 全員", "🥩 無牛燒肉"], desc: "頂級黑豚、地雞與海鮮無牛燒肉大慶功！" }
+      ],
+      6: [
+        { time: "08:30", title: "早餐：星乃珈琲店", tags: ["🟢 全員", "🥞 早餐"], desc: "窯烤舒芙蕾熱鬆餅與香濃熱咖啡。" },
+        { time: "09:30", title: "箕面公園・箕面瀑布賞楓", tags: ["🟢 全員", "★必去", "🍁 楓葉秘境"], desc: "漫步紅葉溪谷，品嚐名物「現炸楓葉」。" },
+        { time: "12:30", title: "午餐：箕面手打蕎麥麵", tags: ["🟢 全員", "🍜 午餐"], desc: "清爽滑順的無牛蕎麥麵。" },
+        { time: "14:00", title: "下午分流：日本橋「電電城」搜刮", tags: ["🔴 A組", "★必去", "🤖 機甲尋寶"], desc: "關西秋葉原挖寶！直攻各大模型玩具神殿。" },
+        { time: "14:00", title: "下午分流：黑門市場與心齋橋", tags: ["🔵🟡 B/C組", "🛍️ 採買"], desc: "藥妝店血拚、品嚐海鮮、百貨公司購物。" },
+        { time: "19:00", title: "晚餐：千房 大阪燒 (道頓堀店)", tags: ["🟢 全員", "🍳 無牛無炸"], desc: "避開炸串！主攻豬肉、海鮮總合大阪燒與鐵板炒麵。" }
+      ],
+      7: [
+        { time: "07:30", title: "早餐：彌生軒 YAYOI", tags: ["🟢 全員", "🐟 早餐"], desc: "日式烤魚、玉子燒營養定食。" },
+        { time: "08:30", title: "難波退房，搭特急 Rapi:t 往機場", tags: ["🟢 全員", "🚆 機場直達"], desc: "38 分鐘直達關西機場，舒適不用搬行李。" },
+        { time: "09:45", title: "木須優先報到", tags: ["🟡 C組", "✈️ 華航"], desc: "11:45 班機起飛返回高雄！" },
+        { time: "11:00", title: "關西機場免稅店最後衝刺", tags: ["🔴🔵 A/B組", "🛍️ 免稅"], desc: "買齊東京芭娜娜、白色戀人與機場午餐。" },
+        { time: "14:00", title: "阿顯星宇返航", tags: ["🔵 B組", "✈️ 星宇"], desc: "14:00 班機返回台中/台北。" },
+        { time: "14:30", title: "您與 a哩華航返航", tags: ["🔴 A組", "✈️ 華航"], desc: "14:30 CI157 起飛，16:25 平安抵達桃園！" }
+      ]
+    };
+
+    function switchDay(day) {
+      document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
+        btn.classList.toggle('active', idx + 1 === day);
+      });
+
+      const container = document.getElementById('timeline-container');
+      const list = itineraryData[day] || [];
+      
+      container.innerHTML = list.map(item => `
+        <div class="timeline-item">
+          <div class="timeline-time">${item.time}</div>
+          <div class="timeline-title">
+            ${item.title}
+            ${item.tags.map(t => {
+              let cls = "tag-trans";
+              if (t.includes("★")) cls = "tag-must";
+              if (t.includes("組") || t.includes("全員")) cls = "tag-group";
+              if (t.includes("美") || t.includes("餐") || t.includes("宵") || t.includes("名物")) cls = "tag-food";
+              return `<span class="tag ${cls}">${t}</span>`;
+            }).join('')}
+          </div>
+          <div class="timeline-desc">${item.desc}</div>
+        </div>
+      `).join('');
+    }
+
+    // 初始載入 Day 1 行程
+    switchDay(1);
+  </script>
+</body>
+</html>
