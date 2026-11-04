@@ -4,17 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>2026 名古屋×大阪 南方四賤客賞楓任天堂大冒險</title>
+  <!-- 載入 Tailwind CSS 輔助響應式排版 -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 載入 Google Fonts「Huninn (粉圓體)」 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Huninn&display=swap" rel="stylesheet">
   <style>
+    /* 日系繪本風主題色票設定 */
     :root {
-      --bg-color: #FFFCF6;
-      --border-color: #3E3A39;
-      --coral-pink: #F2A497;
-      --yamabuki-yellow: #F6D27A;
-      --water-blue: #A8D3E6;
-      --bamboo-green: #B9DAA5;
+      --bg-color: #FFFCF6;        /* 和紙白 */
+      --border-color: #3E3A39;    /* 墨灰粗線框 */
+      --coral-pink: #F2A497;      /* 珊瑚粉 */
+      --yamabuki-yellow: #F6D27A; /* 山吹黃 */
+      --water-blue: #A8D3E6;      /* 水色 */
+      --bamboo-green: #B9DAA5;    /* 若竹綠 */
       --card-bg: #FFFFFF;
     }
 
@@ -27,12 +31,16 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       background-color: var(--bg-color);
       padding-bottom: 90px;
     }
 
-    /* 頂端固定選單 */
+    /* 頂端固定選單 (5個按鈕最佳化間距) */
     .navbar {
       position: sticky;
       top: 0;
@@ -41,19 +49,27 @@
       border-bottom: 3px solid var(--border-color);
       display: flex;
       justify-content: space-around;
-      padding: 10px 0;
+      gap: 4px;
+      padding: 10px 6px;
+      max-width: 100%;
     }
 
     .nav-btn {
       background: var(--card-bg);
       border: 2px solid var(--border-color);
-      border-radius: 20px;
-      padding: 6px 14px;
-      font-size: 14px;
+      border-radius: 18px;
+      padding: 5px 10px;
+      font-size: 13px;
       font-weight: bold;
       text-decoration: none;
       box-shadow: 2px 2px 0 var(--border-color);
       transition: all 0.2s;
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    .nav-btn:hover {
+      background: var(--yamabuki-yellow);
     }
 
     .nav-btn:active {
@@ -61,13 +77,13 @@
       box-shadow: 0 0 0;
     }
 
-    .container {
+    .container-box {
       max-width: 480px;
       margin: 0 auto;
       padding: 16px;
     }
 
-    /* 首頁插圖與標題 */
+    /* 首頁插圖與標題卡片 */
     .hero-card {
       background: var(--yamabuki-yellow);
       border: 3px solid var(--border-color);
@@ -81,16 +97,18 @@
 
     .hero-title {
       font-size: 22px;
+      font-weight: bold;
       margin-bottom: 8px;
-      line-height: 1.3;
+      line-height: 1.35;
     }
 
     .hero-subtitle {
       font-size: 13px;
+      font-weight: bold;
       margin-bottom: 12px;
       display: inline-block;
       background: #FFF;
-      padding: 4px 10px;
+      padding: 4px 12px;
       border: 2px solid var(--border-color);
       border-radius: 12px;
     }
@@ -104,35 +122,51 @@
     .animated-svg {
       display: flex;
       justify-content: center;
-      gap: 12px;
-      margin: 10px 0;
+      align-items: center;
+      gap: 14px;
+      margin: 12px 0;
     }
 
     .animated-svg svg {
       animation: float-gentle 3s ease-in-out infinite;
     }
 
+    .animated-svg svg:nth-child(2) {
+      animation-delay: 0.4s;
+    }
+
+    .animated-svg svg:nth-child(3) {
+      animation-delay: 0.8s;
+    }
+
+    /* 支援「減少動態效果」系統設定 */
     @media (prefers-reduced-motion: reduce) {
-      .animated-svg svg {
-        animation: none;
+      .animated-svg svg,
+      .timeline-item {
+        animation: none !important;
+      }
+      html {
+        scroll-behavior: auto;
       }
     }
 
-    /* 倒數計時 */
+    /* 倒數計時器 */
     .countdown-box {
       background: #FFF;
       border: 2px solid var(--border-color);
       border-radius: 16px;
-      padding: 8px 12px;
+      padding: 8px 14px;
       font-size: 14px;
       font-weight: bold;
       display: inline-block;
       box-shadow: 2px 2px 0 var(--border-color);
+      margin-top: 4px;
     }
 
     /* 區塊標題 */
     .section-title {
       font-size: 18px;
+      font-weight: bold;
       margin: 24px 0 12px 0;
       display: flex;
       align-items: center;
@@ -167,7 +201,9 @@
       padding-bottom: 8px;
       scrollbar-width: none;
     }
-    .date-tabs::-webkit-scrollbar { display: none; }
+    .date-tabs::-webkit-scrollbar {
+      display: none;
+    }
 
     .tab-btn {
       flex: 0 0 auto;
@@ -251,13 +287,14 @@
       gap: 6px;
     }
 
-    /* 彩色標籤 */
+    /* 彩色小標籤 */
     .tag {
       font-size: 11px;
       padding: 2px 6px;
       border-radius: 8px;
       border: 1.5px solid var(--border-color);
       font-weight: bold;
+      display: inline-block;
     }
     .tag-must { background: var(--coral-pink); color: #FFF; }
     .tag-trans { background: var(--water-blue); }
@@ -266,7 +303,7 @@
 
     .timeline-desc {
       font-size: 13px;
-      line-height: 1.4;
+      line-height: 1.45;
       color: #555;
     }
 
@@ -275,15 +312,22 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 8px 0;
+      padding: 9px 0;
       border-bottom: 1px dashed #DDD;
       font-size: 14px;
+      cursor: pointer;
+    }
+
+    .todo-item:last-child {
+      border-bottom: none;
     }
 
     .todo-checkbox {
       appearance: none;
+      -webkit-appearance: none;
       width: 20px;
       height: 20px;
+      flex-shrink: 0;
       border: 2px solid var(--border-color);
       border-radius: 6px;
       background: #FFF;
@@ -299,6 +343,7 @@
     .todo-checkbox:checked::after {
       content: '✔';
       font-size: 13px;
+      font-weight: bold;
       color: var(--border-color);
     }
 
@@ -306,33 +351,191 @@
       text-decoration: line-through;
       color: #AAA;
     }
+
+    /* 雲端同步狀態徽章 */
+    .sync-badge {
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1.5px solid var(--border-color);
+      background: var(--bamboo-green);
+      font-weight: bold;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: auto;
+    }
+
+    .sync-badge.syncing {
+      background: var(--yamabuki-yellow);
+    }
+
+    /* 表單輸入框與按鈕繪本風樣式 */
+    .sketch-input, .sketch-select {
+      width: 100%;
+      background: #FFFCF6;
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      padding: 8px 10px;
+      font-size: 13px;
+      outline: none;
+      transition: all 0.15s;
+    }
+
+    .sketch-input:focus, .sketch-select:focus {
+      background: #FFFFFF;
+      box-shadow: 2px 2px 0 var(--border-color);
+    }
+
+    .sketch-btn {
+      background: var(--coral-pink);
+      color: #FFF;
+      border: 2px solid var(--border-color);
+      border-radius: 14px;
+      padding: 8px 14px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 2px 2px 0 var(--border-color);
+      transition: all 0.15s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .sketch-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 0 0 0;
+    }
+
+    .sketch-btn-secondary {
+      background: var(--water-blue);
+      color: var(--border-color);
+    }
+
+    .sketch-btn-yellow {
+      background: var(--yamabuki-yellow);
+      color: var(--border-color);
+    }
+
+    /* 成員選擇按鈕 (Payer / Split) */
+    .member-chip {
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: bold;
+      background: #FFF;
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+
+    .member-chip.selected-payer {
+      background: var(--coral-pink);
+      color: #FFF;
+      box-shadow: 2px 2px 0 var(--border-color);
+      transform: translateY(-1px);
+    }
+
+    .member-chip.selected-split {
+      background: var(--bamboo-green);
+      color: var(--border-color);
+      box-shadow: 2px 2px 0 var(--border-color);
+      transform: translateY(-1px);
+    }
+
+    .delete-icon-btn {
+      background: #FFF0EE;
+      border: 1.5px solid var(--border-color);
+      border-radius: 8px;
+      padding: 2px 7px;
+      font-size: 11px;
+      cursor: pointer;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .delete-icon-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* 浮動提示訊息 (取代 alert) */
+    #toast-msg {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--border-color);
+      color: #FFF;
+      padding: 10px 18px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: bold;
+      z-index: 999;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      pointer-events: none;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    #toast-msg.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
 
-  <!-- 頂端選單 -->
+  <!-- 頂端固定選單 (5大功能) -->
   <nav class="navbar">
     <a href="#itinerary" class="nav-btn">📅 行程</a>
     <a href="#flights" class="nav-btn">✈️ 航班</a>
     <a href="#hotels" class="nav-btn">🏨 住宿</a>
+    <a href="#expenses" class="nav-btn">💰 記帳</a>
     <a href="#todo" class="nav-btn">✅ 待辦</a>
   </nav>
 
-  <div class="container">
+  <div class="container-box">
 
     <!-- 首頁卡片 -->
     <div class="hero-card">
       <div class="hero-subtitle">🍁 秋楓 × 🍄 樂園</div>
       <h1 class="hero-title">2026 名古屋 × 大阪<br>南方四賤客賞楓任天堂大冒險</h1>
       
-      <!-- 原創可愛繪本風 SVG 插圖 (楓葉、蘑菇、新幹線) -->
+      <!-- 原創可愛繪本風 SVG 插圖 (道地日本秋楓もみじ、超級蘑菇、新幹線) -->
       <div class="animated-svg">
-        <!-- 楓葉 SVG -->
-        <svg width="42" height="42" viewBox="0 0 100 100">
-          <path d="M50 10 L58 35 L80 25 L70 50 L95 65 L65 72 L72 92 L50 78 L28 92 L35 72 L5 65 L30 50 L20 25 L42 35 Z" fill="#F2A497" stroke="#3E3A39" stroke-width="6" stroke-linejoin="round"/>
+        <!-- 道地日本秋楓葉 (もみじ) SVG -->
+        <svg width="46" height="46" viewBox="0 0 100 100" aria-label="日本秋楓插圖">
+          <!-- 彎曲葉柄 -->
+          <path d="M50 72 Q52 87 43 95" fill="none" stroke="#3E3A39" stroke-width="5" stroke-linecap="round"/>
+          <!-- 七裂圓潤日本紅葉葉身 -->
+          <path d="M50 8
+                   C54 20, 56 26, 58 31
+                   C65 22, 74 16, 84 18
+                   C81 28, 76 35, 71 42
+                   C80 41, 89 43, 95 49
+                   C86 55, 78 58, 69 59
+                   C75 65, 80 72, 79 80
+                   C70 78, 62 74, 55 69
+                   L50 74
+                   L45 69
+                   C38 74, 30 78, 21 80
+                   C20 72, 25 65, 31 59
+                   C22 58, 14 55, 5 49
+                   C11 43, 20 41, 29 42
+                   C24 35, 19 28, 16 18
+                   C26 16, 35 22, 42 31
+                   C44 26, 46 20, 50 8 Z"
+                fill="#E86F52" stroke="#3E3A39" stroke-width="5" stroke-linejoin="round"/>
+          <!-- 內部溫暖珊瑚色高光與精緻葉脈 -->
+          <path d="M50 70 L50 22 M50 64 L74 27 M50 64 L26 27 M50 66 L82 48 M50 66 L18 48 M50 69 L70 73 M50 69 L30 73"
+                stroke="#3E3A39" stroke-width="2.5" stroke-linecap="round" opacity="0.75"/>
         </svg>
-        <!-- 蘑菇怪 SVG -->
-        <svg width="42" height="42" viewBox="0 0 100 100">
+        <!-- 蘑菇 SVG -->
+        <svg width="42" height="42" viewBox="0 0 100 100" aria-label="超級蘑菇插圖">
           <path d="M15 55 C15 25 85 25 85 55 C85 62 15 62 15 55 Z" fill="#F2A497" stroke="#3E3A39" stroke-width="6"/>
           <circle cx="35" cy="40" r="8" fill="#FFF"/>
           <circle cx="65" cy="40" r="8" fill="#FFF"/>
@@ -341,7 +544,7 @@
           <ellipse cx="58" cy="68" rx="2" ry="5" fill="#3E3A39"/>
         </svg>
         <!-- 新幹線小火車 SVG -->
-        <svg width="48" height="42" viewBox="0 0 120 100">
+        <svg width="48" height="42" viewBox="0 0 120 100" aria-label="新幹線插圖">
           <path d="M10 70 L90 70 C105 70 115 58 115 58 L90 40 L10 40 Z" fill="#A8D3E6" stroke="#3E3A39" stroke-width="6"/>
           <rect x="25" y="48" width="16" height="12" rx="3" fill="#FFF" stroke="#3E3A39" stroke-width="4"/>
           <rect x="50" y="48" width="16" height="12" rx="3" fill="#FFF" stroke="#3E3A39" stroke-width="4"/>
@@ -375,21 +578,21 @@
     <div id="flights">
       <div class="section-title">航班動線</div>
       <div class="ui-card">
-        <div class="timeline-title">🔴 婷博士與述秘書組 </div>
+        <div class="timeline-title">🔴 婷博士與述秘書組</div>
         <div class="timeline-desc">
           🛫 去：12/5 07:40 桃機 ➔ 11:10 名古屋 (華航 CI154)<br>
           🛬 回：12/11 14:30 關西 ➔ 16:25 桃機 (華航 CI157)
         </div>
       </div>
       <div class="ui-card">
-        <div class="timeline-title">🔵 顯博士組 </div>
+        <div class="timeline-title">🔵 顯博士組</div>
         <div class="timeline-desc">
           🛫 去：12/5 07:05 台中 ➔ 10:40 名古屋 (星宇 JX320)<br>
           🛬 回：12/11 14:00 關西 ➔ 15:50 返台 (星宇 JX823)
         </div>
       </div>
       <div class="ui-card">
-        <div class="timeline-title">🟡 須博士組 </div>
+        <div class="timeline-title">🟡 須博士組</div>
         <div class="timeline-desc">
           🛫 去：12/5 07:40 桃機 ➔ 11:10 名古屋 (華航 CI154)<br>
           🛬 回：12/11 11:45 關西 ➔ 14:00 高雄 (華航 CI167)
@@ -414,37 +617,201 @@
       </div>
     </div>
 
-    <!-- 打勾待辦清單 -->
-    <div id="todo">
-      <div class="section-title">出發備忘錄</div>
+    <!-- 💰 共同同步記帳功能區塊 -->
+    <div id="expenses">
+      <div class="section-title">
+        <span>共同同步記帳</span>
+        <span id="expense-sync-badge" class="sync-badge syncing">🟡 連線同步中...</span>
+      </div>
+
+      <!-- 匯率設定與總支出統計卡片 -->
+      <div class="ui-card" style="background:#FFF9E6;">
+        <div class="flex items-center justify-between mb-3 pb-2 border-b-2 border-dashed border-[#3E3A39]/30">
+          <div class="text-xs font-bold flex items-center gap-1">
+            <span>💱 換算匯率 (JPY➔TWD)：</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <input type="number" id="exchange-rate-input" step="0.001" min="0.05" max="1" value="0.21"
+                   class="sketch-input" style="width: 78px; padding: 3px 6px; text-align: center; font-weight: bold;">
+            <button type="button" onclick="saveExchangeRate()" class="sketch-btn sketch-btn-secondary" style="padding: 3px 8px; font-size: 11px;">更新</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 text-center">
+          <div class="bg-white border-2 border-[#3E3A39] rounded-xl p-2">
+            <div class="text-xs text-gray-500">旅費累積總計 (折合台幣)</div>
+            <div id="total-twd-display" class="text-lg font-bold" style="color:#D9534F;">NT$ 0</div>
+          </div>
+          <div class="bg-white border-2 border-[#3E3A39] rounded-xl p-2">
+            <div class="text-xs text-gray-500">日圓原始消費累計</div>
+            <div id="total-jpy-display" class="text-lg font-bold">¥ 0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 新增帳目表單卡片 -->
       <div class="ui-card">
-        <label class="todo-item">
-          <input type="checkbox" class="todo-checkbox">
-          <span>完成 Visit Japan Web 申報登錄</span>
-        </label>
-        <label class="todo-item">
-          <input type="checkbox" class="todo-checkbox">
-          <span>預訂 12/8 新幹線特大行李位（名➔新大阪）</span>
-        </label>
-        <label class="todo-item">
-          <input type="checkbox" class="todo-checkbox">
-          <span>USJ App 綁定門票（入園即搶瑪利歐券）</span>
-        </label>
-        <label class="todo-item">
-          <input type="checkbox" class="todo-checkbox">
-          <span>準備好 JCB 信用卡（高島屋/百貨回饋）</span>
-        </label>
-        <label class="todo-item">
-          <input type="checkbox" class="todo-checkbox">
-          <span>儲存「不吃牛肉」日文小卡至手機相本</span>
-        </label>
+        <div class="timeline-title mb-2">✏️ 新增一筆共同花費</div>
+
+        <div class="space-y-3">
+          <!-- 項目與分類 -->
+          <div class="grid grid-cols-3 gap-2">
+            <div class="col-span-2">
+              <label class="text-xs font-bold block mb-1">消費項目</label>
+              <input type="text" id="exp-title" class="sketch-input" placeholder="例：惠亭豬排、計程車">
+            </div>
+            <div>
+              <label class="text-xs font-bold block mb-1">分類</label>
+              <select id="exp-category" class="sketch-select">
+                <option value="🍽️ 餐飲">🍽️ 餐飲</option>
+                <option value="🛍️ 購物">🛍️ 購物</option>
+                <option value="🚇 交通">🚇 交通</option>
+                <option value="🎟️ 門票">🎟️ 門票</option>
+                <option value="🍻 宵夜">🍻 宵夜</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 幣別與金額 -->
+          <div class="grid grid-cols-3 gap-2">
+            <div>
+              <label class="text-xs font-bold block mb-1">幣別</label>
+              <select id="exp-currency" class="sketch-select" onchange="updateCurrencyPreview()">
+                <option value="JPY">JPY 日圓 (¥)</option>
+                <option value="TWD">TWD 台幣 ($)</option>
+              </select>
+            </div>
+            <div class="col-span-2">
+              <label class="text-xs font-bold block mb-1">
+                <span>金額</span>
+                <span id="exp-converted-preview" class="text-[11px] text-gray-500 font-normal ml-1">(約 NT$ 0)</span>
+              </label>
+              <input type="number" id="exp-amount" inputmode="decimal" class="sketch-input" placeholder="輸入金額" oninput="updateCurrencyPreview()">
+            </div>
+          </div>
+
+          <!-- 先付錢的人 (墊款人) -->
+          <div>
+            <label class="text-xs font-bold block mb-1">🙋 誰先付錢 (墊款人)：</label>
+            <div class="flex flex-wrap gap-2" id="payer-chips">
+              <button type="button" class="member-chip selected-payer" data-member="述秘" onclick="selectPayer('述秘')">述秘</button>
+              <button type="button" class="member-chip" data-member="婷博" onclick="selectPayer('婷博')">婷博</button>
+              <button type="button" class="member-chip" data-member="顯博" onclick="selectPayer('顯博')">顯博</button>
+              <button type="button" class="member-chip" data-member="須博" onclick="selectPayer('須博')">須博</button>
+            </div>
+          </div>
+
+          <!-- 分攤對象 -->
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label class="text-xs font-bold">👥 分攤成員 (可複選)：</label>
+              <div class="flex gap-1">
+                <button type="button" onclick="quickSelectSplit(['述秘','婷博','顯博','須博'])" class="text-[11px] underline font-bold px-1">全員4人</button>
+                <button type="button" onclick="quickSelectSplit(['述秘','婷博'])" class="text-[11px] underline font-bold px-1">婷述組</button>
+                <button type="button" onclick="quickSelectSplit(['顯博','須博'])" class="text-[11px] underline font-bold px-1">須顯組</button>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-2" id="split-chips">
+              <button type="button" class="member-chip selected-split" data-member="述秘" onclick="toggleSplitMember('述秘')">✔ 述秘</button>
+              <button type="button" class="member-chip selected-split" data-member="婷博" onclick="toggleSplitMember('婷博')">✔ 婷博</button>
+              <button type="button" class="member-chip selected-split" data-member="顯博" onclick="toggleSplitMember('顯博')">✔ 顯博</button>
+              <button type="button" class="member-chip selected-split" data-member="須博" onclick="toggleSplitMember('須博')">✔ 須博</button>
+            </div>
+          </div>
+
+          <button type="button" onclick="addExpenseItem()" class="sketch-btn w-full mt-1">
+            ➕ 新增這筆帳目 (全團同步)
+          </button>
+        </div>
+      </div>
+
+      <!-- 📊 自動分帳與結算面板 -->
+      <div class="ui-card" style="background:#EBF7FC;">
+        <div class="timeline-title mb-2">📊 自動結算面板 (誰該給誰錢)</div>
+        <!-- 轉帳建議清單 -->
+        <div id="settlement-transfers" class="space-y-1.5 mb-3">
+          <div class="text-xs text-gray-500">尚無帳目資料，新增後自動計算最簡結算方式！</div>
+        </div>
+        <!-- 每人墊付 vs 應分攤小表 -->
+        <div class="bg-white border-2 border-[#3E3A39] rounded-xl p-2">
+          <div class="grid grid-cols-4 text-[11px] font-bold border-b border-gray-300 pb-1 mb-1 text-center">
+            <div>成員</div>
+            <div>已先墊付</div>
+            <div>應分攤</div>
+            <div>淨結算(TWD)</div>
+          </div>
+          <div id="member-balance-rows" class="space-y-1 text-xs text-center">
+            <!-- JS 動態渲染 4 位成員結算狀態 -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 歷史記帳明細列表 -->
+      <div class="ui-card">
+        <div class="timeline-title mb-2">🧾 歷史記帳明細</div>
+        <div id="expense-list-container" class="space-y-2">
+          <div class="text-xs text-gray-500 text-center py-3">載入雲端帳目中...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✅ 雲端即時同步「出發備忘錄」 -->
+    <div id="todo">
+      <div class="section-title">
+        <span>出發備忘錄</span>
+        <span id="todo-sync-badge" class="sync-badge syncing">🟡 連線同步中...</span>
+      </div>
+      <div class="ui-card">
+        <div class="text-xs text-gray-500 mb-2">
+          💡 任何團員打勾或新增備忘事項，所有人的畫面都會即時同步更新！
+        </div>
+
+        <!-- 備忘錄清單容器 -->
+        <div id="todo-list-container">
+          <div class="text-xs text-gray-500 py-3 text-center">載入雲端備忘錄中...</div>
+        </div>
+
+        <!-- 新增備忘錄輸入區 -->
+        <div class="mt-3 pt-3 border-t-2 border-dashed border-[#3E3A39]/30 flex flex-col gap-2">
+          <div class="flex gap-2">
+            <select id="new-todo-owner" class="sketch-select" style="width: 95px; flex-shrink: 0;">
+              <option value="全員">🟢 全員</option>
+              <option value="述秘">🔴 述秘</option>
+              <option value="婷博">🔴 婷博</option>
+              <option value="顯博">🔵 顯博</option>
+              <option value="須博">🟡 須博</option>
+            </select>
+            <input type="text" id="new-todo-input" class="sketch-input" placeholder="新增共同待辦或提醒事項..."
+                   onkeydown="if(event.key==='Enter') addNewTodoItem()">
+          </div>
+          <button type="button" onclick="addNewTodoItem()" class="sketch-btn sketch-btn-yellow w-full">
+            ＋ 新增備忘事項
+          </button>
+        </div>
       </div>
     </div>
 
   </div>
 
+  <!-- 浮動通知 Toast -->
+  <div id="toast-msg">已同步更新！</div>
+
+  <!-- 基礎行程與倒數 Script -->
   <script>
-    // 倒數計時計算
+    // 浮動提示工具函式
+    let toastTimer = null;
+    function showToast(msg) {
+      const el = document.getElementById('toast-msg');
+      if (!el) return;
+      el.innerText = msg;
+      el.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        el.classList.remove('show');
+      }, 2400);
+    }
+
+    // 1. 倒數計時計算
     function updateCountdown() {
       const target = new Date("2026-12-05T07:05:00").getTime();
       const now = new Date().getTime();
@@ -462,7 +829,7 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // 7天行程資料庫 (無牛、無炸串版)
+    // 2. 7天行程資料庫 (南方四賤客專屬版)
     const itineraryData = {
       1: [
         { time: "12:15", title: "中部機場全員會合", tags: ["🟢 全員", "🚃 名鐵特急"], desc: "抵達金山舒適飯店放行李。" },
@@ -511,13 +878,14 @@
       7: [
         { time: "07:30", title: "早餐：彌生軒 YAYOI", tags: ["🟢 全員", "🐟 早餐"], desc: "日式烤魚、玉子燒營養定食。" },
         { time: "08:30", title: "難波退房，搭特急 Rapi:t 往機場", tags: ["🟢 全員", "🚆 機場直達"], desc: "38 分鐘直達關西機場，舒適不用搬行李。" },
-        { time: "09:45", title: "須博優先報到", tags: ["🟡 須組", "✈️ 華航"], desc: "11:45 班機CI167 起飛返回高雄！" },
+        { time: "09:45", title: "須博優先報到", tags: ["🟡 須組", "✈️ 華航"], desc: "11:45 班機 CI167 起飛返回高雄！" },
         { time: "11:00", title: "關西機場免稅店最後衝刺", tags: ["🔴🔵 婷述顯組", "🛍️ 免稅"], desc: "買齊伴手禮、白色戀人與機場午餐。" },
-        { time: "14:00", title: "顯博星宇返航", tags: ["🔵 顯組", "✈️ 星宇"], desc: "14:00 班機JX823 返回台中/台北。" },
-        { time: "14:30", title: "婷博與述秘華航返航", tags: ["🔴 婷述組", "✈️ 華航"], desc: "14:30 班時CI157 起飛，16:25 平安抵達桃園！" }
+        { time: "14:00", title: "顯博星宇返航", tags: ["🔵 顯組", "✈️ 星宇"], desc: "14:00 班機 JX823 返回台中/台北。" },
+        { time: "14:30", title: "婷博與述秘華航返航", tags: ["🔴 婷述組", "✈️ 華航"], desc: "14:30 班機 CI157 起飛，16:25 平安抵達桃園！" }
       ]
     };
 
+    // 3. 切換日期與渲染時間軸
     function switchDay(day) {
       document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
         btn.classList.toggle('active', idx + 1 === day);
@@ -530,12 +898,12 @@
         <div class="timeline-item">
           <div class="timeline-time">${item.time}</div>
           <div class="timeline-title">
-            ${item.title}
+            <span>${item.title}</span>
             ${item.tags.map(t => {
               let cls = "tag-trans";
               if (t.includes("★")) cls = "tag-must";
               if (t.includes("組") || t.includes("全員")) cls = "tag-group";
-              if (t.includes("美") || t.includes("餐") || t.includes("宵") || t.includes("名物")) cls = "tag-food";
+              if (t.includes("美") || t.includes("餐") || t.includes("宵") || t.includes("名物") || t.includes("鍋")) cls = "tag-food";
               return `<span class="tag ${cls}">${t}</span>`;
             }).join('')}
           </div>
@@ -546,6 +914,538 @@
 
     // 初始載入 Day 1 行程
     switchDay(1);
+  </script>
+
+  <!-- Firebase Firestore 雲端即時同步模組 (負責「出發備忘錄」與「共同記帳」) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, addDoc, updateDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const MEMBERS = ['述秘', '婷博', '顯博', '須博'];
+
+    // 預設 5 項出發備忘錄
+    const DEFAULT_TODOS = [
+      { id: 'default-todo-1', text: '完成 Visit Japan Web 申報登錄', owner: '全員', completed: false, order: 1 },
+      { id: 'default-todo-2', text: '預訂 12/8 新幹線特大行李位（名➔新大阪）', owner: '全員', completed: false, order: 2 },
+      { id: 'default-todo-3', text: 'USJ App 綁定門票（入園即搶瑪利歐券）', owner: '全員', completed: false, order: 3 },
+      { id: 'default-todo-4', text: '準備好 JCB 信用卡（高島屋/百貨回饋）', owner: '全員', completed: false, order: 4 },
+      { id: 'default-todo-5', text: '儲存「不吃牛肉」日文小卡至手機相本', owner: '全員', completed: false, order: 5 }
+    ];
+
+    // 記帳與備忘錄狀態
+    let currentUser = null;
+    let db = null;
+    let appId = typeof __app_id !== 'undefined' ? __app_id : 'nagoya-osaka-2026-trip';
+    let exchangeRate = 0.21;
+    let selectedPayer = '述秘';
+    let selectedSplitMembers = ['述秘', '婷博', '顯博', '須博'];
+    let todosCache = [];
+    let expensesCache = [];
+    let hasSeededDefaultTodos = false;
+
+    // 更新同步狀態徽章
+    function setSyncBadgeStatus(isOnline, text) {
+      const todoBadge = document.getElementById('todo-sync-badge');
+      const expBadge = document.getElementById('expense-sync-badge');
+      [todoBadge, expBadge].forEach(badge => {
+        if (!badge) return;
+        badge.innerText = text;
+        if (isOnline) {
+          badge.classList.remove('syncing');
+        } else {
+          badge.classList.add('syncing');
+        }
+      });
+    }
+
+    // 渲染出發備忘錄列表
+    function renderTodos() {
+      const container = document.getElementById('todo-list-container');
+      if (!container) return;
+
+      if (todosCache.length === 0) {
+        container.innerHTML = `<div class="text-xs text-gray-400 py-3 text-center">目前沒有待辦事項，快新增一筆吧！</div>`;
+        return;
+      }
+
+      // 依 order 或建立時間排序 (在記憶體中排序，遵循 RULE 2)
+      const sorted = [...todosCache].sort((a, b) => (a.order || 999) - (b.order || 999));
+
+      container.innerHTML = sorted.map(item => {
+        const ownerTag = item.owner ? `<span class="tag tag-group" style="font-size:10px; padding:1px 5px;">${escapeHtml(item.owner)}</span>` : '';
+        return `
+          <div class="todo-item">
+            <input type="checkbox" class="todo-checkbox" ${item.completed ? 'checked' : ''}
+                   onchange="window.toggleCloudTodo('${item.id}', this.checked)">
+            <span class="flex-1 text-sm ${item.completed ? 'line-through text-gray-400' : ''}"
+                  onclick="window.toggleCloudTodo('${item.id}', ${!item.completed})">
+              ${ownerTag} ${escapeHtml(item.text)}
+            </span>
+            <button type="button" class="delete-icon-btn" title="刪除" onclick="window.deleteCloudTodo('${item.id}')">✕</button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // 渲染記帳明細與自動分帳結算
+    function renderExpensesAndSettlement() {
+      const rateInput = document.getElementById('exchange-rate-input');
+      if (rateInput && document.activeElement !== rateInput) {
+        rateInput.value = exchangeRate;
+      }
+
+      // 1. 計算總支出與每人墊付/應分攤 (全部統一換算為 TWD 計算精準結算，同時累計 JPY)
+      let totalTWD = 0;
+      let totalJPY = 0;
+
+      const paidByMember = { '述秘': 0, '婷博': 0, '顯博': 0, '須博': 0 };
+      const shareByMember = { '述秘': 0, '婷博': 0, '顯博': 0, '須博': 0 };
+
+      expensesCache.forEach(exp => {
+        const amt = Number(exp.amount) || 0;
+        const curr = exp.currency || 'JPY';
+        const twdAmt = curr === 'JPY' ? amt * exchangeRate : amt;
+        const jpyAmt = curr === 'JPY' ? amt : (exchangeRate > 0 ? amt / exchangeRate : 0);
+
+        totalTWD += twdAmt;
+        totalJPY += jpyAmt;
+
+        const payer = exp.payer || '述秘';
+        if (paidByMember[payer] !== undefined) {
+          paidByMember[payer] += twdAmt;
+        }
+
+        const splits = Array.isArray(exp.splitMembers) && exp.splitMembers.length > 0
+          ? exp.splitMembers
+          : MEMBERS;
+        const perPersonTWD = twdAmt / splits.length;
+        splits.forEach(m => {
+          if (shareByMember[m] !== undefined) {
+            shareByMember[m] += perPersonTWD;
+          }
+        });
+      });
+
+      document.getElementById('total-twd-display').innerText = `NT$ ${Math.round(totalTWD).toLocaleString()}`;
+      document.getElementById('total-jpy-display').innerText = `¥ ${Math.round(totalJPY).toLocaleString()}`;
+
+      // 2. 渲染每位成員的墊付 vs 分攤表格
+      const balanceRowsEl = document.getElementById('member-balance-rows');
+      const netBalances = {};
+      MEMBERS.forEach(m => {
+        netBalances[m] = paidByMember[m] - shareByMember[m];
+      });
+
+      balanceRowsEl.innerHTML = MEMBERS.map(m => {
+        const paid = Math.round(paidByMember[m]);
+        const share = Math.round(shareByMember[m]);
+        const net = Math.round(netBalances[m]);
+        const netStr = net > 0
+          ? `<span class="font-bold" style="color:#2E7D32;">+NT$${net.toLocaleString()} (應收)</span>`
+          : net < 0
+            ? `<span class="font-bold" style="color:#C62828;">-NT$${Math.abs(net).toLocaleString()} (應付)</span>`
+            : `<span class="text-gray-400">$0 結清</span>`;
+        return `
+          <div class="grid grid-cols-4 items-center py-1 border-b border-dashed border-gray-200 last:border-none">
+            <div class="font-bold">${m}</div>
+            <div>$${paid.toLocaleString()}</div>
+            <div>$${share.toLocaleString()}</div>
+            <div>${netStr}</div>
+          </div>
+        `;
+      }).join('');
+
+      // 3. 計算最簡轉帳結算演算法 (誰該付給誰多少錢)
+      const debtors = [];
+      const creditors = [];
+      MEMBERS.forEach(m => {
+        const net = netBalances[m];
+        if (net < -0.5) debtors.push({ member: m, amount: Math.abs(net) });
+        if (net > 0.5) creditors.push({ member: m, amount: net });
+      });
+
+      debtors.sort((a, b) => b.amount - a.amount);
+      creditors.sort((a, b) => b.amount - a.amount);
+
+      const transfers = [];
+      let i = 0, j = 0;
+      while (i < debtors.length && j < creditors.length) {
+        const payAmt = Math.min(debtors[i].amount, creditors[j].amount);
+        if (payAmt >= 1) {
+          const jpyEq = exchangeRate > 0 ? Math.round(payAmt / exchangeRate) : 0;
+          transfers.push({
+            from: debtors[i].member,
+            to: creditors[j].member,
+            twd: Math.round(payAmt),
+            jpy: jpyEq
+          });
+        }
+        debtors[i].amount -= payAmt;
+        creditors[j].amount -= payAmt;
+        if (debtors[i].amount < 0.5) i++;
+        if (creditors[j].amount < 0.5) j++;
+      }
+
+      const transferContainer = document.getElementById('settlement-transfers');
+      if (expensesCache.length === 0) {
+        transferContainer.innerHTML = `<div class="text-xs text-gray-500">尚無帳目資料，新增後自動計算最簡結算方式！</div>`;
+      } else if (transfers.length === 0) {
+        transferContainer.innerHTML = `<div class="text-xs font-bold text-green-700 bg-white border-2 border-[#3E3A39] rounded-xl p-2 text-center">🎉 目前全員帳目完全平衡，無須互相轉帳！</div>`;
+      } else {
+        transferContainer.innerHTML = transfers.map(t => `
+          <div class="bg-white border-2 border-[#3E3A39] rounded-xl px-3 py-2 flex items-center justify-between text-xs shadow-sm">
+            <div>
+              <span class="font-bold px-1.5 py-0.5 rounded bg-[#F2A497] text-white border border-[#3E3A39]">${t.from}</span>
+              <span class="mx-1 font-bold">➔ 應付給 ➔</span>
+              <span class="font-bold px-1.5 py-0.5 rounded bg-[#B9DAA5] border border-[#3E3A39]">${t.to}</span>
+            </div>
+            <div class="text-right">
+              <div class="font-bold text-sm" style="color:#D9534F;">NT$ ${t.twd.toLocaleString()}</div>
+              <div class="text-[10px] text-gray-500">(約 ¥${t.jpy.toLocaleString()})</div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // 4. 渲染歷史記帳明細列表 (依時間新到舊排序)
+      const listContainer = document.getElementById('expense-list-container');
+      if (expensesCache.length === 0) {
+        listContainer.innerHTML = `<div class="text-xs text-gray-400 text-center py-4">目前還沒有任何記帳紀錄，點擊上方新增第一筆花費吧！</div>`;
+        return;
+      }
+
+      const sortedExp = [...expensesCache].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+      listContainer.innerHTML = sortedExp.map(exp => {
+        const amt = Number(exp.amount) || 0;
+        const curr = exp.currency || 'JPY';
+        const twdAmt = Math.round(curr === 'JPY' ? amt * exchangeRate : amt);
+        const splits = Array.isArray(exp.splitMembers) ? exp.splitMembers.join('、') : '全員';
+        const dateStr = exp.dateText || '';
+
+        return `
+          <div class="bg-[#FFFCF6] border-2 border-[#3E3A39] rounded-xl p-2.5 flex items-start justify-between gap-2">
+            <div class="flex-1 min-w-0">
+              <div class="flex flex-wrap items-center gap-1 mb-1">
+                <span class="tag tag-food" style="font-size:10px;">${escapeHtml(exp.category || '🍽️ 餐飲')}</span>
+                <span class="font-bold text-sm truncate">${escapeHtml(exp.title)}</span>
+                <span class="text-[10px] text-gray-400">${escapeHtml(dateStr)}</span>
+              </div>
+              <div class="text-xs text-gray-600">
+                <span class="font-bold text-[#3E3A39]">${escapeHtml(exp.payer)}</span> 先付 ｜ 分攤：${escapeHtml(splits)}
+              </div>
+            </div>
+            <div class="text-right flex flex-col items-end gap-1 flex-shrink-0">
+              <div class="font-bold text-sm">
+                ${curr === 'JPY' ? `¥ ${amt.toLocaleString()}` : `NT$ ${amt.toLocaleString()}`}
+              </div>
+              <div class="text-[11px] text-gray-500">
+                ${curr === 'JPY' ? `≈ NT$ ${twdAmt.toLocaleString()}` : `台幣計價`}
+              </div>
+              <button type="button" class="delete-icon-btn" onclick="window.deleteCloudExpense('${exp.id}')">刪除</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    // 暴露給 HTML 互動呼叫的全域函式
+    window.selectPayer = function(member) {
+      selectedPayer = member;
+      document.querySelectorAll('#payer-chips .member-chip').forEach(btn => {
+        btn.classList.toggle('selected-payer', btn.getAttribute('data-member') === member);
+      });
+    };
+
+    window.toggleSplitMember = function(member) {
+      if (selectedSplitMembers.includes(member)) {
+        if (selectedSplitMembers.length <= 1) {
+          showToast('至少需要 1 位分攤成員喔！');
+          return;
+        }
+        selectedSplitMembers = selectedSplitMembers.filter(m => m !== member);
+      } else {
+        selectedSplitMembers.push(member);
+      }
+      updateSplitChipsUI();
+    };
+
+    window.quickSelectSplit = function(membersArray) {
+      selectedSplitMembers = [...membersArray];
+      updateSplitChipsUI();
+    };
+
+    function updateSplitChipsUI() {
+      document.querySelectorAll('#split-chips .member-chip').forEach(btn => {
+        const m = btn.getAttribute('data-member');
+        const isSelected = selectedSplitMembers.includes(m);
+        btn.classList.toggle('selected-split', isSelected);
+        btn.innerText = `${isSelected ? '✔ ' : ''}${m}`;
+      });
+    }
+
+    window.updateCurrencyPreview = function() {
+      const curr = document.getElementById('exp-currency').value;
+      const amt = Number(document.getElementById('exp-amount').value) || 0;
+      const previewEl = document.getElementById('exp-converted-preview');
+      if (curr === 'JPY') {
+        const twd = Math.round(amt * exchangeRate);
+        previewEl.innerText = `(約 NT$ ${twd.toLocaleString()})`;
+      } else {
+        const jpy = exchangeRate > 0 ? Math.round(amt / exchangeRate) : 0;
+        previewEl.innerText = `(約 ¥ ${jpy.toLocaleString()})`;
+      }
+    };
+
+    // 雲端備忘錄操作
+    window.toggleCloudTodo = async function(id, checked) {
+      // 樂觀更新畫面
+      const target = todosCache.find(t => t.id === id);
+      if (target) {
+        target.completed = checked;
+        renderTodos();
+      }
+      if (!currentUser || !db) return;
+      try {
+        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'todos', id);
+        await updateDoc(docRef, { completed: checked });
+        showToast(checked ? '✅ 已完成備忘項目！' : '↩️ 已取消勾選');
+      } catch (err) {
+        console.error('更新待辦失敗:', err);
+      }
+    };
+
+    window.addNewTodoItem = async function() {
+      const inputEl = document.getElementById('new-todo-input');
+      const ownerEl = document.getElementById('new-todo-owner');
+      const text = inputEl.value.trim();
+      const owner = ownerEl.value;
+      if (!text) {
+        showToast('請輸入備忘事項內容！');
+        return;
+      }
+      inputEl.value = '';
+      const newOrder = todosCache.length > 0 ? Math.max(...todosCache.map(t => t.order || 1)) + 1 : 1;
+
+      if (!currentUser || !db) {
+        todosCache.push({ id: 'local-' + Date.now(), text, owner, completed: false, order: newOrder });
+        renderTodos();
+        showToast('已新增備忘事項！');
+        return;
+      }
+
+      try {
+        const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'todos');
+        await addDoc(colRef, {
+          text,
+          owner,
+          completed: false,
+          order: newOrder,
+          createdAt: Date.now()
+        });
+        showToast('✨ 已同步新增備忘事項！');
+      } catch (err) {
+        console.error('新增待辦失敗:', err);
+      }
+    };
+
+    window.deleteCloudTodo = async function(id) {
+      todosCache = todosCache.filter(t => t.id !== id);
+      renderTodos();
+      if (!currentUser || !db) return;
+      try {
+        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'todos', id);
+        await deleteDoc(docRef);
+        showToast('🗑️ 已刪除備忘項目');
+      } catch (err) {
+        console.error('刪除待辦失敗:', err);
+      }
+    };
+
+    // 雲端記帳操作
+    window.saveExchangeRate = async function() {
+      const val = parseFloat(document.getElementById('exchange-rate-input').value);
+      if (isNaN(val) || val <= 0) {
+        showToast('請輸入有效的匯率數值！');
+        return;
+      }
+      exchangeRate = val;
+      window.updateCurrencyPreview();
+      renderExpensesAndSettlement();
+
+      if (!currentUser || !db) {
+        showToast(`💱 匯率已更新為 ${exchangeRate}`);
+        return;
+      }
+      try {
+        const rateDoc = doc(db, 'artifacts', appId, 'public', 'data', 'tripSettings', 'config');
+        await setDoc(rateDoc, { exchangeRate: val, updatedAt: Date.now() }, { merge: true });
+        showToast(`💱 雲端匯率已同步為 ${exchangeRate}`);
+      } catch (err) {
+        console.error('儲存匯率失敗:', err);
+      }
+    };
+
+    window.addExpenseItem = async function() {
+      const titleEl = document.getElementById('exp-title');
+      const catEl = document.getElementById('exp-category');
+      const currEl = document.getElementById('exp-currency');
+      const amtEl = document.getElementById('exp-amount');
+
+      const title = titleEl.value.trim();
+      const amount = parseFloat(amtEl.value);
+      if (!title) {
+        showToast('請輸入消費項目名稱！');
+        return;
+      }
+      if (isNaN(amount) || amount <= 0) {
+        showToast('請輸入大於 0 的金額！');
+        return;
+      }
+
+      const now = new Date();
+      const dateText = `${now.getMonth() + 1}/${now.getDate()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+      const newExp = {
+        title,
+        category: catEl.value,
+        currency: currEl.value,
+        amount,
+        payer: selectedPayer,
+        splitMembers: [...selectedSplitMembers],
+        dateText,
+        createdAt: Date.now()
+      };
+
+      titleEl.value = '';
+      amtEl.value = '';
+      window.updateCurrencyPreview();
+
+      if (!currentUser || !db) {
+        expensesCache.push({ ...newExp, id: 'local-' + Date.now() });
+        renderExpensesAndSettlement();
+        showToast('💰 已新增帳目！');
+        return;
+      }
+
+      try {
+        const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'expenses');
+        await addDoc(colRef, newExp);
+        showToast('💰 帳目已同步至雲端！');
+      } catch (err) {
+        console.error('新增帳目失敗:', err);
+      }
+    };
+
+    window.deleteCloudExpense = async function(id) {
+      expensesCache = expensesCache.filter(e => e.id !== id);
+      renderExpensesAndSettlement();
+      if (!currentUser || !db) return;
+      try {
+        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'expenses', id);
+        await deleteDoc(docRef);
+        showToast('🗑️ 已刪除該筆帳目');
+      } catch (err) {
+        console.error('刪除帳目失敗:', err);
+      }
+    };
+
+    // 初始化 Firebase 與即時監聽 (嚴格遵守 RULE 1, 2, 3)
+    async function initFirebaseSync() {
+      try {
+        if (typeof __firebase_config === 'undefined' || !__firebase_config) {
+          // 若環境無雲端設定，使用預設資料展示
+          todosCache = [...DEFAULT_TODOS];
+          renderTodos();
+          renderExpensesAndSettlement();
+          setSyncBadgeStatus(false, '⚪ 本機預覽模式');
+          return;
+        }
+
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        db = getFirestore(app);
+
+        // RULE 3: 先完成驗證再進行任何 Firestore 查詢
+        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+          await signInWithCustomToken(auth, __initial_auth_token);
+        } else {
+          await signInAnonymously(auth);
+        }
+
+        onAuthStateChanged(auth, (user) => {
+          currentUser = user;
+          if (!currentUser) return;
+
+          setSyncBadgeStatus(true, '🟢 雲端即時同步中');
+
+          // 1. 監聽匯率與設定
+          const configRef = doc(db, 'artifacts', appId, 'public', 'data', 'tripSettings', 'config');
+          onSnapshot(configRef, (snap) => {
+            if (snap.exists()) {
+              const data = snap.data();
+              if (data.exchangeRate) {
+                exchangeRate = Number(data.exchangeRate);
+                renderExpensesAndSettlement();
+              }
+            }
+          }, (err) => console.error('設定監聽錯誤:', err));
+
+          // 2. 監聽出發備忘錄集合 (RULE 1 & RULE 2)
+          const todosRef = collection(db, 'artifacts', appId, 'public', 'data', 'todos');
+          onSnapshot(todosRef, async (snapshot) => {
+            if (snapshot.empty && !hasSeededDefaultTodos) {
+              hasSeededDefaultTodos = true;
+              // 若雲端尚無資料，自動寫入預設 5 項備忘錄
+              for (const item of DEFAULT_TODOS) {
+                const itemRef = doc(db, 'artifacts', appId, 'public', 'data', 'todos', item.id);
+                await setDoc(itemRef, {
+                  text: item.text,
+                  owner: item.owner,
+                  completed: item.completed,
+                  order: item.order,
+                  createdAt: Date.now()
+                });
+              }
+              return;
+            }
+            hasSeededDefaultTodos = true;
+            todosCache = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+            renderTodos();
+          }, (err) => {
+            console.error('待辦清單同步錯誤:', err);
+            setSyncBadgeStatus(false, '🟡 離線檢視中');
+          });
+
+          // 3. 監聽共同記帳集合 (RULE 1 & RULE 2)
+          const expensesRef = collection(db, 'artifacts', appId, 'public', 'data', 'expenses');
+          onSnapshot(expensesRef, (snapshot) => {
+            expensesCache = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+            renderExpensesAndSettlement();
+          }, (err) => {
+            console.error('記帳同步錯誤:', err);
+            setSyncBadgeStatus(false, '🟡 離線檢視中');
+          });
+        });
+      } catch (e) {
+        console.error('Firebase 初始化例外:', e);
+        todosCache = [...DEFAULT_TODOS];
+        renderTodos();
+        renderExpensesAndSettlement();
+        setSyncBadgeStatus(false, '⚪ 本機模式');
+      }
+    }
+
+    initFirebaseSync();
   </script>
 </body>
 </html>
